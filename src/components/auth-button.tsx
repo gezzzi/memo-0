@@ -12,7 +12,23 @@ export default function AuthButton({ user }: { user: User | null }) {
     await supabase.auth.signInWithOAuth({
       provider: 'google',
       options: {
-        redirectTo: `${location.origin}/auth/callback`
+        redirectTo: `${window.location.origin}/auth/callback`,
+        queryParams: {
+          prompt: 'select_account'
+        }
+      }
+    })
+  }
+
+  const handleSignUp = async () => {
+    await supabase.auth.signInWithOAuth({
+      provider: 'google',
+      options: {
+        redirectTo: `${window.location.origin}/auth/callback`,
+        queryParams: {
+          prompt: 'select_account',
+          access_type: 'offline'
+        }
       }
     })
   }
@@ -35,11 +51,19 @@ export default function AuthButton({ user }: { user: User | null }) {
       </button>
     </div>
   ) : (
-    <button
-      onClick={handleSignIn}
-      className="px-4 py-2 text-sm bg-blue-600 text-white rounded-md hover:bg-blue-700 transition"
-    >
-      Googleでログイン
-    </button>
+    <div className="flex items-center gap-2">
+      <button
+        onClick={handleSignIn}
+        className="px-4 py-2 text-sm bg-gray-700 text-gray-200 rounded-md hover:bg-gray-600 transition"
+      >
+        ログイン
+      </button>
+      <button
+        onClick={handleSignUp}
+        className="px-4 py-2 text-sm bg-blue-600 text-white rounded-md hover:bg-blue-700 transition"
+      >
+        新規登録
+      </button>
+    </div>
   )
 }

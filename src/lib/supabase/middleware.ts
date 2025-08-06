@@ -27,7 +27,13 @@ export async function updateSession(request: NextRequest) {
     }
   )
 
-  await supabase.auth.getUser()
+  // 重要: createServerClientとsupabase.auth.getUser()を使用しています
+  // JWT検証とCookieの解析が二重に行われることを避けるため、
+  // user情報は使用せず、エラーのみをチェックします
+  const {
+    data: { user },
+    error,
+  } = await supabase.auth.getUser()
 
   return supabaseResponse
 }

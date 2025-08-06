@@ -10,40 +10,36 @@ export default function AuthButton({ user }: { user: User | null }) {
 
   const handleSignIn = async () => {
     await supabase.auth.signInWithOAuth({
-      provider: 'github',
+      provider: 'google',
       options: {
-        redirectTo: `${location.origin}/auth/callback`,
-      },
+        redirectTo: `${location.origin}/auth/callback`
+      }
     })
   }
 
   const handleSignOut = async () => {
     await supabase.auth.signOut()
-    router.refresh()
+    router.push('/auth/signout')
   }
 
-  if (user) {
-    return (
-      <div className="flex items-center gap-4">
-        <span className="text-sm text-gray-700">
-          {user.user_metadata?.user_name || user.email}
-        </span>
-        <button
-          onClick={handleSignOut}
-          className="px-4 py-2 text-sm bg-gray-200 text-gray-700 rounded-md hover:bg-gray-300 transition"
-        >
-          ログアウト
-        </button>
-      </div>
-    )
-  }
-
-  return (
+  return user ? (
+    <div className="flex items-center gap-4">
+      <span className="text-sm text-gray-300">
+        {user.user_metadata.name || user.email}
+      </span>
+      <button
+        onClick={handleSignOut}
+        className="px-4 py-2 text-sm bg-gray-700 text-gray-200 rounded-md hover:bg-gray-600 transition"
+      >
+        ログアウト
+      </button>
+    </div>
+  ) : (
     <button
       onClick={handleSignIn}
-      className="px-4 py-2 text-sm bg-gray-900 text-white rounded-md hover:bg-gray-800 transition"
+      className="px-4 py-2 text-sm bg-blue-600 text-white rounded-md hover:bg-blue-700 transition"
     >
-      GitHubでログイン
+      Googleでログイン
     </button>
   )
 }

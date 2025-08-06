@@ -7,10 +7,10 @@ export default async function Home() {
   const { data: { user } } = await supabase.auth.getUser()
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      <header className="bg-white shadow-sm">
+    <div className="min-h-screen bg-gray-900">
+      <header className="bg-gray-800 shadow-lg">
         <div className="max-w-4xl mx-auto px-4 py-4 flex justify-between items-center">
-          <h1 className="text-2xl font-bold text-gray-900">Todoリスト</h1>
+          <h1 className="text-2xl font-bold text-gray-100">Todoリスト</h1>
           <AuthButton user={user} />
         </div>
       </header>

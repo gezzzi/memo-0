@@ -1,13 +1,18 @@
 import { createClient } from '@/lib/supabase/server'
-import { NextResponse } from 'next/server'
+import { revalidatePath } from 'next/cache'
+import { type NextRequest, NextResponse } from 'next/server'
 
-export async function POST(request: Request) {
-  const requestUrl = new URL(request.url)
+export async function GET(req: NextRequest) {
   const supabase = await createClient()
 
-  await supabase.auth.signOut()
+  const { data: { session } } = await supabase.auth.getSession()
 
-  return NextResponse.redirect(`${requestUrl.origin}/`, {
-    status: 301,
+  if (session) {
+    await supabase.auth.signOut()
+  }
+
+  revalidatePath('/', 'layout')
+  return NextResponse.redirect(new URL('/', req.url), {
+    status: 302,
   })
 }

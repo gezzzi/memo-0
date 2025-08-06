@@ -24,12 +24,14 @@ NEXT_PUBLIC_SUPABASE_ANON_KEY=your-supabase-anon-key
 
 Supabaseダッシュボードの SQL Editor で `supabase/schema.sql` の内容を実行
 
-### 4. GitHub OAuth の設定
+### 4. Google OAuth の設定
 
-1. Supabaseダッシュボード > Authentication > Providers > GitHub を有効化
-2. [GitHub Developer Settings](https://github.com/settings/developers) で OAuth App を作成
-   - Authorization callback URL: `https://[YOUR-PROJECT-REF].supabase.co/auth/v1/callback`
-3. Client ID と Client Secret を Supabase に設定
+1. [Google Cloud Console](https://console.cloud.google.com/) でプロジェクトを作成
+2. APIs & Services > Credentials > Create Credentials > OAuth 2.0 Client ID を作成
+   - Application type: Web application
+   - Authorized redirect URIs: `https://[YOUR-PROJECT-REF].supabase.co/auth/v1/callback`
+3. Supabaseダッシュボード > Authentication > Providers > Google を有効化
+4. Google Client ID と Client Secret を Supabase に設定
 
 ### 5. アプリケーションの起動
 
@@ -40,7 +42,7 @@ npm run dev
 
 ## 機能
 
-- GitHub OAuth によるログイン/ログアウト
+- Google OAuth によるログイン/ログアウト
 - Todoの作成、完了/未完了の切り替え、削除
 - ユーザーごとのデータ分離（RLS使用）
 

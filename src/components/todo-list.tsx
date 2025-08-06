@@ -20,6 +20,8 @@ export default function TodoList({ user }: { user: User | null }) {
   useEffect(() => {
     if (user) {
       fetchTodos()
+    } else {
+      setLoading(false)
     }
   }, [user])
 
@@ -78,13 +80,13 @@ export default function TodoList({ user }: { user: User | null }) {
   if (!user) {
     return (
       <div className="text-center py-8">
-        <p className="text-gray-500">ログインしてTodoリストを使用してください</p>
+        <p className="text-gray-400">ログインしてTodoリストを使用してください</p>
       </div>
     )
   }
 
   if (loading) {
-    return <div className="text-center py-8">読み込み中...</div>
+    return <div className="text-center py-8 text-gray-300">読み込み中...</div>
   }
 
   return (
@@ -96,7 +98,7 @@ export default function TodoList({ user }: { user: User | null }) {
             value={newTodo}
             onChange={(e) => setNewTodo(e.target.value)}
             placeholder="新しいTodoを入力"
-            className="flex-1 px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="flex-1 px-4 py-2 bg-gray-700 border border-gray-600 text-gray-100 placeholder-gray-400 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
           />
           <button
             type="submit"
@@ -111,7 +113,7 @@ export default function TodoList({ user }: { user: User | null }) {
         {todos.map((todo) => (
           <div
             key={todo.id}
-            className="flex items-center gap-3 p-3 bg-white border border-gray-200 rounded-md"
+            className="flex items-center gap-3 p-3 bg-gray-800 border border-gray-700 rounded-md"
           >
             <input
               type="checkbox"
@@ -121,14 +123,14 @@ export default function TodoList({ user }: { user: User | null }) {
             />
             <span
               className={`flex-1 ${
-                todo.completed ? 'line-through text-gray-400' : 'text-gray-700'
+                todo.completed ? 'line-through text-gray-500' : 'text-gray-200'
               }`}
             >
               {todo.title}
             </span>
             <button
               onClick={() => deleteTodo(todo.id)}
-              className="px-3 py-1 text-sm text-red-600 hover:bg-red-50 rounded transition"
+              className="px-3 py-1 text-sm text-red-400 hover:bg-red-900/30 rounded transition"
             >
               削除
             </button>
@@ -137,7 +139,7 @@ export default function TodoList({ user }: { user: User | null }) {
       </div>
 
       {todos.length === 0 && (
-        <p className="text-center text-gray-400 py-8">
+        <p className="text-center text-gray-500 py-8">
           Todoがありません。新しいTodoを追加してください。
         </p>
       )}

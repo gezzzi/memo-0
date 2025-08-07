@@ -15,7 +15,7 @@ export async function updateSession(request: NextRequest) {
           return request.cookies.getAll()
         },
         setAll(cookiesToSet) {
-          cookiesToSet.forEach(({ name, value, options }) => request.cookies.set(name, value))
+          cookiesToSet.forEach(({ name, value }) => request.cookies.set(name, value))
           supabaseResponse = NextResponse.next({
             request,
           })
@@ -30,10 +30,7 @@ export async function updateSession(request: NextRequest) {
   // 重要: createServerClientとsupabase.auth.getUser()を使用しています
   // JWT検証とCookieの解析が二重に行われることを避けるため、
   // user情報は使用せず、エラーのみをチェックします
-  const {
-    data: { user },
-    error,
-  } = await supabase.auth.getUser()
+  await supabase.auth.getUser()
 
   return supabaseResponse
 }
